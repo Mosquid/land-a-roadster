@@ -45,6 +45,11 @@ async function runGame() {
     try { localStorage.setItem(bestKey(CFG.levels[i]), String(v)); } catch { /* storage blocked: best is per session */ }
   };
 
+  // ---------------------------------------------------------- play counts
+  // GoatCounter (index.html) counts page views. These events count runs per level: start, launch and
+  // the result grade. An ad blocker can stop the script, so window.goatcounter can be missing.
+  const track = path => { if (!pilot) window.goatcounter?.count({ path: `level-${index + 1}/${path}`, event: true }); };
+
   // ---------------------------------------------------------- levels
   let index = -1, level, sim, scenery;
   const levelsEl = document.getElementById('levels');
@@ -76,6 +81,7 @@ async function runGame() {
     if (params.has('from')) sim.placeAt(sim.track.length - Number(params.get('from')), 40);   // test start before the lip, at 144 km/h
     prev.pos.copy(sim.body.pos); prev.quat.copy(sim.body.quat); acc = 0;
     playing = true; paused = false; launchClock = padClock = Infinity;
+    track('start');
   };
   const showTitle = () => {
     playing = false;
@@ -117,10 +123,11 @@ async function runGame() {
   let launchClock = Infinity, padClock = Infinity, shake = 0;
   const onEvent = ev => {
     if (ev === 'wall') shake = Math.max(shake, Math.min(1, sim.rail.hit / 10));
-    if (ev === 'launch') { launchClock = 0; hud.message(`${sim.def.launchMessage || 'STABILIZE!'}<small>stop the spin · land on four wheels</small>`, 1.8); }
+    if (ev === 'launch') { launchClock = 0; track('launch'); hud.message(`${sim.def.launchMessage || 'STABILIZE!'}<small>stop the spin · land on four wheels</small>`, 1.8); }
     if (ev === 'bounce') { launchClock = padClock = 0; hud.message('BOUNCE!<small>stabilize again · land on four wheels</small>', 1.6); }
     if (ev === 'touchdown') hud.message(sim.touch.first.by === 'wheel' ? 'TOUCHDOWN' : 'IMPACT', 1.2);
     if (ev === 'result') {
+      track(sim.result.grade.toLowerCase());
       if (!pilot && sim.result.total > bests[index]) saveBest(index, sim.result.total);
       hud.showResult(sim.result, bests[index]);
     }

@@ -96,6 +96,18 @@ If the shell touches the ground before a wheel, the score loses 15 points. On le
 
 All tuning values are in `src/config.js`.
 
+## Play counts
+
+GoatCounter (https://mosquid.goatcounter.com) counts visits and runs. It uses no cookies. The script tag is in `index.html`, and it does not count on `localhost`. `main.js` sends one event per step of a run, per level:
+
+| Event | When |
+| --- | --- |
+| `level-N/start` | A run starts (`Enter`, `R`, `N` or a level card) |
+| `level-N/launch` | The car leaves the track |
+| `level-N/perfect` … `level-N/crashed` | The result card shows this grade |
+
+Runs with `?autopilot` send no events. To stop counting your own visits in one browser, open the game URL with `#toggle-goatcounter` at the end.
+
 ## Files
 
 | File | Contents |

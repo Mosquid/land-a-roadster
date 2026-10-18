@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadster Thrust</title>
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<div id="hud" hidden>
+  <div class="panel tl">
+    <div id="phase"></div>
+    <div id="hint"></div>
+    <div class="meter"><i id="progress"></i></div>
+  </div>
+  <div class="panel tr">
+    <div class="big"><span id="speed">0</span><small>km/h</small></div>
+    <div id="alt"></div>
+  </div>
+  <div class="panel bottom" id="flight" hidden>
+    <div class="quad" title="Thrusters, seen from above. Nose at the top.">
+      <i id="t0"></i><i id="t1"></i><i id="t2"></i><i id="t3"></i>
+    </div>
+    <div class="rates">
+      <div class="rate"><b>S</b><div class="track"><i id="r-pitch"></i></div><b>W</b><span>PITCH</span></div>
+      <div class="rate"><b>A</b><div class="track"><i id="r-roll"></i></div><b>D</b><span>ROLL</span></div>
+      <div class="rate"><b>Q</b><div class="track"><i id="r-yaw"></i></div><b>E</b><span>YAW</span></div>
+    </div>
+    <div class="side">
+      <div id="attitude"></div>
+      <div class="fuel"><span>FUEL</span><div class="meter"><i id="fuel"></i></div></div>
+    </div>
+  </div>
+  <div id="message"></div>
+  <div id="result" class="card" hidden></div>
+</div>
+
+<div id="title" class="overlay" hidden>
+  <div class="card">
+    <h1>ROADSTER <em>THRUST</em></h1>
+    <p class="lead">Drive up the ramp, fly off the end, stop the tumble with four floor thrusters, and land on all four wheels.</p>
+    <div id="levels" class="levels"></div>
+    <div class="cols">
+      <div><h3>On the ramp</h3>
+        <p><kbd>W</kbd> accelerate &nbsp; <kbd>S</kbd> brake</p>
+        <p><kbd>A</kbd> <kbd>D</kbd> steer</p></div>
+      <div><h3>In the air</h3>
+        <p><kbd>W</kbd> <kbd>S</kbd> pitch nose down / up</p>
+        <p><kbd>A</kbd> <kbd>D</kbd> roll left / right</p>
+        <p><kbd>Q</kbd> <kbd>E</kbd> yaw left / right</p>
+        <p><kbd>Space</kbd> or <kbd>Q</kbd>+<kbd>E</kbd> all four thrusters</p></div>
+    </div>
+    <p class="small">The spin bars show how the car turns. Hold the key on the other side of the bar to stop it.
+      Space lights all four thrusters, and the turn keys still work while you hold it. Fuel is limited: stop the spin first, then brake the fall.</p>
+    <p class="small"><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> pick a level &nbsp; <kbd>R</kbd> restart &nbsp; <kbd>N</kbd> next level &nbsp; <kbd>M</kbd> levels &nbsp; <kbd>P</kbd> pause</p>
+    <button id="start">Press Enter to start</button>
+  </div>
+</div>
+<div id="loading" class="overlay"><div class="card">Loading roadster…</div></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

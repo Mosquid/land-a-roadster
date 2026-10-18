@@ -8,9 +8,11 @@ import { createWorld } from './world.js';
 import { Hud } from './hud.js';
 import { autopilot } from './autopilot.js';
 import { selftest } from './selftest.js';
+import { isTouch, keyLabel, touchControls } from './touch.js';
 
 const params = new URLSearchParams(location.search);
 const firstLevel = THREE.MathUtils.clamp(Number(params.get('level')) || 1, 1, CFG.levels.length) - 1;   // ?level= is 1-based
+document.body.classList.toggle('touch', isTouch);
 
 if (params.has('selftest')) runSelftest();
 else runGame();
@@ -89,30 +91,37 @@ async function runGame() {
     renderLevels();
     document.getElementById('title').hidden = false;
   };
+  const press = code => {
+    if (!playing) {
+      const n = Number(code.replace('Digit', ''));
+      if (n >= 1 && n <= CFG.levels.length) setLevel(n - 1);
+      if (code === 'Enter') start();
+    } else if (code === 'KeyR') start();
+    else if (code === 'KeyN') { setLevel((index + 1) % CFG.levels.length); start(); }
+    else if (code === 'KeyM') showTitle();
+    else if (code === 'KeyP' || code === 'Escape') {
+      paused = !paused;
+      hud.message(paused ? `PAUSED<small>${keyLabel('{P}')} to continue</small>` : '', paused ? Infinity : 0);
+    }
+  };
   addEventListener('keydown', e => {
     if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) e.preventDefault();
     keys.add(e.code);
-    if (!playing) {
-      const n = Number(e.code.replace('Digit', ''));
-      if (n >= 1 && n <= CFG.levels.length) setLevel(n - 1);
-      if (e.code === 'Enter') start();
-    } else if (e.code === 'KeyR') start();
-    else if (e.code === 'KeyN') { setLevel((index + 1) % CFG.levels.length); start(); }
-    else if (e.code === 'KeyM') showTitle();
-    else if (e.code === 'KeyP' || e.code === 'Escape') {
-      paused = !paused;
-      hud.message(paused ? 'PAUSED<small>P to continue</small>' : '', paused ? Infinity : 0);
-    }
+    press(e.code);
   });
   addEventListener('keyup', e => keys.delete(e.code));
   addEventListener('blur', () => keys.clear());
-  document.getElementById('start').addEventListener('click', start);
+  addEventListener('click', e => {   // buttons that do the same as a key: start, the touch menu, the result card
+    const button = e.target.closest('[data-key]');
+    if (button) press(button.dataset.key);
+  });
   levelsEl.addEventListener('click', e => {
     const card = e.target.closest('.level');
     if (card) { setLevel(Number(card.dataset.i)); start(); }
   });
 
-  const held = (...codes) => (codes.some(c => keys.has(c)) ? 1 : 0);
+  const touchKeys = touchControls(document.getElementById('touch'));
+  const held = (...codes) => (codes.some(c => keys.has(c) || touchKeys.has(c)) ? 1 : 0);
   const readKeys = () => {
     const up = held('KeyW', 'ArrowUp'), down = held('KeyS', 'ArrowDown'), left = held('KeyA', 'ArrowLeft'), right = held('KeyD', 'ArrowRight');
     const q = held('KeyQ'), e = held('KeyE');   // Q and E each fire one diagonal pair, so both together fire all four

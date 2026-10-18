@@ -29,6 +29,23 @@ The arrow keys also work in place of WASD. In the air, each turn key fires the t
 
 `Q` and `E` each fire one diagonal pair of thrusters. Hold both, and all four fire, the same as `Space`. With all four at full power, the thrust is 2.2 times the car's weight, so a level car climbs. One tank lifts the car about 175 m from a hover.
 
+## Touch screens
+
+On a phone or a tablet, the game shows on-screen controls in place of the keys. It uses them when the main pointer is a finger (`pointer: coarse`).
+
+| Control | Same as |
+| --- | --- |
+| Stick, left thumb | `W` `A` `S` `D`, in eight directions: up-left holds `W` + `A`. The centre is a dead zone |
+| `↺` / `↻` | `Q` / `E`, yaw |
+| `THRUST` | `Space` |
+| `RETRY`, `❚❚`, `LEVELS`, under the speed | `R`, `P`, `M` |
+| Buttons on the result card | `R`, `N`, `M`. A mouse can also click them |
+
+- Each finger holds its own control, so the stick and a button work at the same time. A control keeps its finger when the finger slides off it.
+- The hints and the spin bars name the touch controls: ▲ ▼ ◀ ▶ for the stick, ↺ ↻ for yaw. In `config.js`, a level hint names keys in braces, for example `{W}`, and `src/touch.js` gives the touch name.
+- On a phone in portrait (narrower than 600 px), a prompt asks the player to turn the phone sideways.
+- The page blocks pinch zoom and page scroll. The title card and the result card still scroll when they do not fit.
+
 ## Levels
 
 | Level | Track | What is new |
@@ -72,6 +89,7 @@ If the shell touches the ground before a wheel, the score loses 15 points. On le
 
 ## Test and tuning
 
+- `?touch` shows the touch controls on a desktop. The mouse works the stick and the buttons, one at a time.
 - `?autopilot` flies the game with a test pilot that uses the same on/off keys as a player.
 - `?level=2` starts on that level. It also limits `?selftest` to that level.
 - `?selftest=30` runs every level without rendering and prints a table. Use it after you change the steering, the tracks, thrust, fuel, inertia or spin.
@@ -112,7 +130,7 @@ GoatCounter counts a visit only the first time a browser sends a path in 8 hours
 
 | File | Contents |
 | --- | --- |
-| `index.html`, `style.css` | Page, HUD and title screen |
+| `index.html`, `style.css` | Page, HUD, touch controls and title screen |
 | `src/config.js` | All tuning values and the three level definitions |
 | `src/track.js` | Track frames and curvatures from a sampled path, deck collision through a grid, the spiral and loop path shapes, and `Level` (ground, track, trampoline pads) |
 | `src/scenery.js` | Track mesh, supports (spiral columns and tower, loop wheel and A-frames), trampoline, canvas textures |
@@ -122,6 +140,7 @@ GoatCounter counts a visit only the first time a browser sends a path in 8 hours
 | `src/car.js` | GLB loading, thruster flames, wheel spin and suspension travel |
 | `src/world.js` | Renderer, sky, sun, ground and bloom |
 | `src/hud.js` | HUD and result card |
+| `src/touch.js` | Touch detection, the stick and the pads, and the touch names of the keys |
 | `src/autopilot.js`, `src/selftest.js` | Test pilot and batch test |
 | `assets/roadster.glb` | The roadster model, exported from Blender |
 
@@ -142,4 +161,4 @@ A Blender script builds the model. The script is not in this repo. After you cha
 - In flight, the car collides with the ground, the track deck and the trampoline mat only. It goes through the walls, columns, spokes, the tower and the trampoline frame.
 - The trampoline is a one-time reflection of the falling speed, not a stretching mat.
 - The physics is a small custom model, tuned for one car and analytic surfaces. For free-form levels, use a physics engine such as Rapier with mesh colliders. The `Sim` / `CarBody` split keeps that change local.
-- There is no sound and no touch control.
+- There is no sound.

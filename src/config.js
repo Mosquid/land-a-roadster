@@ -56,11 +56,12 @@ export const CFG = {
 
   // Levels. track.type picks the path shape in track.js. spin + spinPerSpeed * speed is the random
   // tumble at the launch, rad/s. fuel is in seconds of all four thrusters at full throttle.
+  // hint names keys in braces, so a touch screen can name its own controls (touch.js).
   levels: [
     {
       id: 'spiral', name: 'Spiral',
       blurb: 'Climb the spiral, fly off the lip and land on four wheels.',
-      hint: 'Hold W to build speed. Steer with A / D: the ramp turns right.',
+      hint: 'Hold {W} to build speed. Steer with {A} / {D}: the ramp turns right.',
       track: {
         type: 'spiral', ...DECK, radius: 34, turns: 0.75, height: 38,   // 15° climb
         bank: 10 * deg, bankIn: 30,           // inward bank, faded in over the first 30 m
@@ -72,7 +73,7 @@ export const CFG = {
     {
       id: 'loop', name: 'Loop',
       blurb: 'Ride a half loop. At the top you hang under the track, and it launches you upside down.',
-      hint: 'Hold W. If the car is too slow at the top of the loop, it falls off.',
+      hint: 'Hold {W}. If the car is too slow at the top of the loop, it falls off.',
       launchMessage: 'UPSIDE DOWN!',
       // Straight run-up, then half a vertical loop. It drifts 14 m to the right, so the top ends beside the run-up.
       track: { type: 'loop', ...DECK, runUp: 100, radius: 22, angle: Math.PI, drift: -14 },
@@ -81,7 +82,7 @@ export const CFG = {
     {
       id: 'trampoline', name: 'Trampoline',
       blurb: 'Hit the trampoline first. It throws the car back up with a new spin. Then land on four wheels.',
-      hint: 'Hold W and steer: the launch must reach the blue trampoline.',
+      hint: 'Hold {W} and steer: the launch must reach the blue trampoline.',
       track: {
         type: 'spiral', ...DECK, radius: 30, turns: 0.5, height: 16,
         bank: 8 * deg, bankIn: 25, entryLength: 10, kickLength: 12, kickAngle: 16 * deg,

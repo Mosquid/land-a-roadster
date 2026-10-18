@@ -1,4 +1,5 @@
 import { Vector3 } from 'three';
+import { keyLabel } from './touch.js';
 
 const $ = id => document.getElementById(id);
 const DEG = 180 / Math.PI;
@@ -6,9 +7,9 @@ const RATE_RANGE = 360;   // °/s at the end of a spin bar
 const _up = new Vector3();
 
 const HINTS = {
-  air: 'Stop the spin, level the car, then brake the fall with Space.',
+  air: 'Stop the spin, level the car, then brake the fall with {Space}.',
   landing: 'Touchdown…',
-  result: 'R to try again. N for the next level.',
+  result: 'Try again, or go to the next level.',
 };
 const TITLES = { air: 'AIRBORNE', landing: 'TOUCHDOWN', result: 'RESULT' };
 
@@ -17,6 +18,7 @@ export class Hud {
     this.el = Object.fromEntries(['hud', 'phase', 'hint', 'progress', 'speed', 'alt', 'flight', 'attitude', 'fuel', 'message', 'result',
       'r-pitch', 'r-roll', 'r-yaw', 't0', 't1', 't2', 't3'].map(id => [id, $(id)]));
     this.msgTime = 0;
+    for (const b of document.querySelectorAll('.rate b')) b.textContent = keyLabel(`{${b.textContent}}`);
   }
 
   show(on) { this.el.hud.hidden = !on; }
@@ -28,7 +30,7 @@ export class Hud {
     if ((this.msgTime -= dt) <= 0) e.message.classList.remove('on');
     const n = sim.cfg.levels.indexOf(sim.def) + 1;
     e.phase.textContent = sim.phase === 'ramp' ? `LEVEL ${n} · ${sim.def.name.toUpperCase()}` : TITLES[sim.phase];
-    e.hint.textContent = sim.phase === 'ramp' ? sim.def.hint : HINTS[sim.phase];
+    e.hint.textContent = keyLabel(sim.phase === 'ramp' ? sim.def.hint : HINTS[sim.phase]);
     e.progress.style.width = `${Math.min(100, (100 * sim.rail.s) / sim.track.length)}%`;
     e.progress.parentElement.hidden = flying;
     e.speed.textContent = Math.round(b.vel.length() * 3.6);
@@ -73,8 +75,10 @@ export class Hud {
       <div class="total">${r.total} / 100 &nbsp;·&nbsp; best ${best}</div>
       ${rows}
       ${notes.map(n => `<div class="note">${n}</div>`).join('')}
-      <div class="foot">Launch ${Math.round(r.launchSpeed * 3.6)} km/h · fuel left ${Math.round(r.fuelLeft * 100)}% · seed ${r.seed}<br>
-        <kbd>R</kbd> try again &nbsp; <kbd>N</kbd> next level &nbsp; <kbd>M</kbd> levels</div>`;
+      <div class="foot">Launch ${Math.round(r.launchSpeed * 3.6)} km/h · fuel left ${Math.round(r.fuelLeft * 100)}% · seed ${r.seed}</div>
+      <div class="acts"><button data-key="KeyR"><kbd class="keys-only">R</kbd> Try again</button>
+        <button data-key="KeyN"><kbd class="keys-only">N</kbd> Next level</button>
+        <button data-key="KeyM"><kbd class="keys-only">M</kbd> Levels</button></div>`;
     this.el.result.hidden = false;
   }
 

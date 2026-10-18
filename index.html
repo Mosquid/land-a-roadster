@@ -24,6 +24,7 @@
   <div class="panel tr">
     <div class="big"><span id="speed">0</span><small>km/h</small></div>
     <div id="alt"></div>
+    <div class="menu touch-only"><button data-key="KeyR">RETRY</button><button data-key="KeyP">❚❚</button><button data-key="KeyM">LEVELS</button></div>
   </div>
   <div class="panel bottom" id="flight" hidden>
     <div class="quad" title="Thrusters, seen from above. Nose at the top.">
@@ -39,6 +40,14 @@
       <div class="fuel"><span>FUEL</span><div class="meter"><i id="fuel"></i></div></div>
     </div>
   </div>
+  <div id="touch" class="touch-only">
+    <div class="stick"><b data-hold="KeyW">▲</b><b data-hold="KeyS">▼</b><b data-hold="KeyA">◀&#xFE0E;</b><b data-hold="KeyD">▶&#xFE0E;</b><i></i></div>
+    <div class="pads">
+      <div class="pad" data-hold="KeyQ">↺<small>YAW</small></div>
+      <div class="pad" data-hold="KeyE">↻<small>YAW</small></div>
+      <div class="pad thrust" data-hold="Space">THRUST</div>
+    </div>
+  </div>
   <div id="message"></div>
   <div id="result" class="card" hidden></div>
 </div>
@@ -48,7 +57,8 @@
     <h1>ROADSTER <em>THRUST</em></h1>
     <p class="lead">Drive up the ramp, fly off the end, stop the tumble with four floor thrusters, and land on all four wheels.</p>
     <div id="levels" class="levels"></div>
-    <div class="cols">
+    <button id="start" data-key="Enter"><span class="keys-only">Press Enter to start</span><span class="touch-only">Start</span></button>
+    <div class="cols keys-only">
       <div><h3>On the ramp</h3>
         <p><kbd>W</kbd> accelerate &nbsp; <kbd>S</kbd> brake</p>
         <p><kbd>A</kbd> <kbd>D</kbd> steer</p></div>
@@ -58,13 +68,23 @@
         <p><kbd>Q</kbd> <kbd>E</kbd> yaw left / right</p>
         <p><kbd>Space</kbd> or <kbd>Q</kbd>+<kbd>E</kbd> all four thrusters</p></div>
     </div>
-    <p class="small">The spin bars show how the car turns. Hold the key on the other side of the bar to stop it.
+    <p class="small keys-only">The spin bars show how the car turns. Hold the key on the other side of the bar to stop it.
       Space lights all four thrusters, and the turn keys still work while you hold it. Fuel is limited: stop the spin first, then brake the fall.</p>
-    <p class="small"><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> pick a level &nbsp; <kbd>R</kbd> restart &nbsp; <kbd>N</kbd> next level &nbsp; <kbd>M</kbd> levels &nbsp; <kbd>P</kbd> pause</p>
-    <button id="start">Press Enter to start</button>
+    <div class="cols touch-only">
+      <div><h3>On the ramp</h3>
+        <p><b>▲</b> accelerate &nbsp; <b>▼</b> brake</p>
+        <p><b>◀&#xFE0E; ▶&#xFE0E;</b> steer</p></div>
+      <div><h3>In the air</h3>
+        <p><b>▲ ▼</b> pitch nose down / up &nbsp; <b>◀&#xFE0E; ▶&#xFE0E;</b> roll</p>
+        <p><b>↺ ↻</b> yaw &nbsp; <b>THRUST</b> all four thrusters</p></div>
+    </div>
+    <p class="small touch-only">The spin bars show how the car turns. Push toward the other side of a bar to stop the spin.
+      Fuel is limited: stop the spin first, then brake the fall.</p>
+    <p class="small keys-only"><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> pick a level &nbsp; <kbd>R</kbd> restart &nbsp; <kbd>N</kbd> next level &nbsp; <kbd>M</kbd> levels &nbsp; <kbd>P</kbd> pause</p>
   </div>
 </div>
 <div id="loading" class="overlay"><div class="card">Loading roadster…</div></div>
+<div id="rotate" class="overlay touch-only"><div class="card">Turn your phone sideways to play.</div></div>
 
 <script type="module" src="src/main.js"></script>
 <!-- Visitor and play counts, no cookies. The script does not count on localhost. -->

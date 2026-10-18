@@ -87,3 +87,66 @@ pre#selftest { position: fixed; inset: 16px; overflow: auto; margin: 0; padding:
   #result { left: 16px; right: 16px; max-width: none; }
   .cols, .levels { grid-template-columns: 1fr; }
 }
+
+/* Result card actions. They also work by click on a desktop. */
+.acts { display: flex; gap: 8px; margin-top: 12px; }
+.acts button, .menu button { flex: 1; width: auto; margin: 0; padding: 9px 6px; font-size: 13px; letter-spacing: 0.04em;
+  color: var(--ink); background: #121c27; border: 1px solid var(--line); }
+
+/* Touch screens (main.js sets body.touch): a stick and pads in place of the keys. touch-action stops page
+   zoom and scroll; the cards still scroll, because each card is its own scroll container. */
+.touch { touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+body:not(.touch) .touch-only, .touch .keys-only { display: none !important; }
+.menu { display: flex; gap: 6px; margin-top: 8px; }
+.menu button { padding: 7px 8px; font-size: 11px; }
+.stick { position: fixed; left: 24px; bottom: 24px; width: 136px; height: 136px; border-radius: 50%;
+  background: rgba(10, 16, 24, 0.45); border: 1px solid var(--line); }
+.stick i { position: absolute; left: 50%; top: 50%; width: 60px; height: 60px; margin: -30px; border-radius: 50%;
+  background: rgba(111, 216, 255, 0.22); border: 2px solid var(--cyan); pointer-events: none; }
+.stick b { position: absolute; font-size: 13px; line-height: 1; color: var(--dim); pointer-events: none; }
+.stick b.on { color: var(--cyan); }
+.stick [data-hold=KeyW] { top: 8px; left: 50%; transform: translateX(-50%); }
+.stick [data-hold=KeyS] { bottom: 8px; left: 50%; transform: translateX(-50%); }
+.stick [data-hold=KeyA] { left: 9px; top: 50%; transform: translateY(-50%); }
+.stick [data-hold=KeyD] { right: 9px; top: 50%; transform: translateY(-50%); }
+.pads { position: fixed; right: 24px; bottom: 24px; width: 176px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pad { display: grid; place-content: center; justify-items: center; height: 60px; border-radius: 14px;
+  background: rgba(10, 16, 24, 0.45); border: 1px solid var(--line); font: 700 24px/1 system-ui, sans-serif; }
+.pad small { font-size: 9px; letter-spacing: 0.14em; color: var(--dim); margin-top: 3px; }
+.pad.thrust { grid-column: 1 / -1; height: 64px; font-size: 15px; letter-spacing: 0.14em; }
+.pad.on { background: rgba(111, 216, 255, 0.35); border-color: var(--cyan); }
+
+/* The flight panel sits between the stick and the pads. */
+.touch .tl { min-width: 0; max-width: 40vw; }
+.touch .bottom { bottom: 12px; display: grid; grid-template-areas: "quad side" "quad rates"; gap: 6px 12px; padding: 8px 12px; width: auto; }
+.touch .quad { grid-area: quad; align-self: center; grid-template-columns: 16px 16px; grid-template-rows: 22px 22px; gap: 6px 10px; padding: 5px 8px; }
+.touch .side { grid-area: side; display: flex; align-items: center; gap: 12px; min-width: 0; }
+.touch .fuel { flex: 1; grid-template-columns: 30px 1fr; }
+.touch .rates { grid-area: rates; order: 0; width: auto; gap: 4px; }
+.touch .rate { grid-template-columns: 14px 110px 14px 34px; gap: 4px; }
+.touch .rate span { font-size: 9px; }
+.touch .levels { grid-template-columns: repeat(3, 1fr); }
+.touch .cols { grid-template-columns: 1fr 1fr; }
+.touch #hud:has(#result:not([hidden])) :is(#touch, #flight) { display: none; }
+#rotate { display: none; text-align: center; background: #0b1016; }
+@media (max-width: 700px) {   /* keep the flight panel clear of the thumbs */
+  .stick { left: 16px; bottom: 16px; width: 124px; height: 124px; }
+  .pads { right: 16px; bottom: 16px; width: 156px; }
+}
+@media (orientation: portrait) and (max-width: 600px) { .touch #rotate { display: grid; } }
+
+/* Phones on their side are short. */
+@media (max-height: 500px) {
+  .card { padding: 16px 20px; }
+  h1 { font-size: 26px; }
+  h3 { margin-top: 8px; }
+  .levels { margin: 10px 0 2px; }
+  .level { font-size: 12px; }
+  button { margin-top: 8px; padding: 10px; }
+  #message { font-size: 34px; }
+  #message small { font-size: 14px; }
+  #result { top: 12px; right: 12px; max-height: calc(100% - 24px); padding: 14px 18px; }
+  #result .grade { font-size: 28px; }
+  #result .total { margin-bottom: 8px; }
+  #result .row { margin: 3px 0; }
+}

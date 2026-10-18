@@ -98,7 +98,7 @@ All tuning values are in `src/config.js`.
 
 ## Play counts
 
-GoatCounter (https://mosquid.goatcounter.com) counts visits and runs. It uses no cookies. The script tag is in `index.html`, and it does not count on `localhost`. `main.js` sends one event per step of a run, per level:
+GoatCounter (https://mosquid.goatcounter.com) counts players. It uses no cookies and stores no user ID. The script tag is in `index.html`, and it does not count on `localhost`. `main.js` sends an event at each step of a run, per level:
 
 | Event | When |
 | --- | --- |
@@ -106,7 +106,7 @@ GoatCounter (https://mosquid.goatcounter.com) counts visits and runs. It uses no
 | `level-N/launch` | The car leaves the track |
 | `level-N/perfect` … `level-N/crashed` | The result card shows this grade |
 
-Runs with `?autopilot` send no events. To stop counting your own visits in one browser, open the game URL with `#toggle-goatcounter` at the end.
+GoatCounter counts a visit only the first time a browser sends a path in 8 hours. It knows the browser by its IP address and User-Agent, in memory only. So each event counts players, not runs: a player who restarts ten times counts once. A player who comes back the next day counts again. Runs with `?autopilot` send no events. To stop counting your own visits in one browser, open the game URL with `#toggle-goatcounter` at the end.
 
 ## Files
 

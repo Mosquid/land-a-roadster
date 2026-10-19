@@ -28,7 +28,7 @@ export const CFG = {
   },
 
   thrust: {
-    force: 6500,                 // per thruster at full throttle
+    force: 7865,                 // per thruster at full throttle
   },
 
   drive: {
@@ -68,7 +68,7 @@ export const CFG = {
         entryLength: 10,                      // the climb fades in over the first 10 m, so the car starts level
         kickLength: 12, kickAngle: 14 * deg,  // the lip at the end tips the climb up by this angle
       },
-      spin: 1.5, spinPerSpeed: 0.06, fuel: 4,
+      spin: 0.75, spinPerSpeed: 0.03, fuel: 4,
     },
     {
       id: 'loop', name: 'Loop',
@@ -77,7 +77,7 @@ export const CFG = {
       launchMessage: 'UPSIDE DOWN!',
       // Straight run-up, then half a vertical loop. It drifts 14 m to the right, so the top ends beside the run-up.
       track: { type: 'loop', ...DECK, runUp: 100, radius: 22, angle: Math.PI, drift: -14 },
-      spin: 1.0, spinPerSpeed: 0.04, fuel: 4,
+      spin: 0.5, spinPerSpeed: 0.02, fuel: 4,
     },
     {
       id: 'trampoline', name: 'Trampoline',
@@ -89,9 +89,9 @@ export const CFG = {
       },
       // Pad top at `height`, centred on (x, z), size along X and Z. bounce: rebound of the falling speed.
       // Launches from about 100 to 125 km/h come down on it.
-      pads: [{ x: -28.5, z: -143, size: [26, 64], height: 2.5, bounce: 1.05, spin: 2, spinPerSpeed: 0.04 }],
+      pads: [{ x: -28.5, z: -143, size: [26, 64], height: 2.5, bounce: 1.05, spin: 1, spinPerSpeed: 0.02 }],
       missPenalty: 30,
-      spin: 1.0, spinPerSpeed: 0.04, fuel: 6,
+      spin: 0.5, spinPerSpeed: 0.02, fuel: 6,
     },
   ],
 };

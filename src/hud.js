@@ -39,9 +39,9 @@ export class Hud {
 
     e.flight.hidden = !flying;
     if (!flying) return;
-    this.bar(e['r-pitch'], b.omega.x * DEG);
-    this.bar(e['r-roll'], b.omega.z * DEG);
-    this.bar(e['r-yaw'], -b.omega.y * DEG);
+    this.bar(e['r-pitch'], -b.omega.x * DEG);
+    this.bar(e['r-roll'], -b.omega.z * DEG);
+    this.bar(e['r-yaw'], b.omega.y * DEG);
     b.throttle.forEach((p, i) => {
       e[`t${i}`].style.background = p ? `rgba(111,216,255,${0.35 + 0.65 * p})` : '';
       e[`t${i}`].style.boxShadow = p ? `0 0 14px rgba(111,216,255,${p})` : '';

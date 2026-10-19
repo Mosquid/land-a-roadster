@@ -125,7 +125,8 @@ async function runGame() {
   const readKeys = () => {
     const up = held('KeyW', 'ArrowUp'), down = held('KeyS', 'ArrowDown'), left = held('KeyA', 'ArrowLeft'), right = held('KeyD', 'ArrowRight');
     const q = held('KeyQ'), e = held('KeyE');   // Q and E each fire one diagonal pair, so both together fire all four
-    return { drive: up - down, steer: left - right, pitch: up - down, roll: right - left, yaw: q - e, lift: Math.max(held('Space'), q * e) };
+    // Inverted flight controls for the PoC; driving and collective thrust keep their usual mapping.
+    return { drive: up - down, steer: left - right, pitch: down - up, roll: left - right, yaw: e - q, lift: Math.max(held('Space'), q * e) };
   };
 
   // ---------------------------------------------------------- events

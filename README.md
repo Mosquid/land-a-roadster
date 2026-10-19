@@ -20,10 +20,10 @@ Then open http://localhost:5173.
 | --- | --- |
 | Title | `1` / `2` / `3` pick a level, `Enter` start, or click a level card |
 | Track | `W` accelerate, `S` brake or reverse, `A` / `D` steer |
-| Air | `W` / `S` pitch nose down / up, `A` / `D` roll left / right, `Q` / `E` yaw left / right, `Space` or `Q` + `E` together all four thrusters |
+| Air | `W` / `S` pitch nose up / down, `A` / `D` roll right / left, `Q` / `E` yaw right / left, `Space` or `Q` + `E` together all four thrusters |
 | Any | `R` restart, `N` next level, `M` level select, `P` or `Esc` pause |
 
-The arrow keys also work in place of WASD. In the air, each turn key fires the thrusters that turn the car that way, at full power, and switches the others off. Keys add together, for example `W` + `A` fires only the rear-right thruster.
+The arrow keys also work in place of WASD. Flight controls are inverted for the PoC. In the air, each turn key fires the thrusters for its mapped rotation at full power and switches the others off. Keys add together to select thrusters for combined rotations.
 
 `Space` keeps all four thrusters lit. While you hold it, a turn key throttles the opposite thrusters down to half instead of off. So you can brake the fall and correct the attitude at the same time.
 
